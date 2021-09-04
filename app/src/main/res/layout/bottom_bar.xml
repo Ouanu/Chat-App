@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_alignParentBottom="true"
+              android:background="#55888888"
+              android:gravity="center"
+              android:layout_height="70dp">
+
+    <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <RadioButton
+                android:drawableTop="@drawable/chat_bg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:background="@color/null_color"
+                android:button="@null"
+                android:text="聊天"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:checked="true"
+                android:layout_weight="1"/>
+        <RadioButton
+                android:drawableTop="@drawable/contact_bg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:background="@color/null_color"
+                android:button="@null"
+                android:text="联系人"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_weight="1"/>
+        <RadioButton
+                android:drawableTop="@drawable/found_bg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:background="@color/null_color"
+                android:button="@null"
+                android:text="朋友圈"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_weight="1"/>
+        <RadioButton
+                android:drawableTop="@drawable/personal_bg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:background="@color/null_color"
+                android:button="@null"
+                android:text="我"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_weight="1"/>
+    </RadioGroup>
+
+
+
+</LinearLayout>

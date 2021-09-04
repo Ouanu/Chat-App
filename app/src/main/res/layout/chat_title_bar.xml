@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center">
+
+    <TextView
+            android:id="@+id/title_name"
+            android:text="Chat"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>
+
+    <ImageButton
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_search_black_24dp"
+            android:background="@color/null_color"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"/>
+
+    <ImageButton
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_add_circle_outline_black_24dp"
+            android:background="@color/null_color"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+
+
+</RelativeLayout>
