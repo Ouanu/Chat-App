@@ -8,10 +8,12 @@
               android:layout_height="70dp">
 
     <RadioGroup
+            android:id="@+id/rg_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
         <RadioButton
+                android:id="@+id/rb_chat"
                 android:drawableTop="@drawable/chat_bg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -19,11 +21,12 @@
                 android:background="@color/null_color"
                 android:button="@null"
                 android:text="聊天"
+                android:checked="true"
                 android:textColor="@color/black"
                 android:gravity="center"
-                android:checked="true"
                 android:layout_weight="1"/>
         <RadioButton
+                android:id="@+id/rb_contact"
                 android:drawableTop="@drawable/contact_bg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -35,6 +38,7 @@
                 android:gravity="center"
                 android:layout_weight="1"/>
         <RadioButton
+                android:id="@+id/rb_found"
                 android:drawableTop="@drawable/found_bg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -46,6 +50,7 @@
                 android:gravity="center"
                 android:layout_weight="1"/>
         <RadioButton
+                android:id="@+id/rb_me"
                 android:drawableTop="@drawable/personal_bg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
