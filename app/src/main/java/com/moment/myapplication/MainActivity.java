@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.moment.myapplication.data.ChatData;
+import com.moment.myapplication.data.ContactData;
 import com.moment.myapplication.pager.ChatPager;
+import com.moment.myapplication.pager.ContactPager;
 
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private int whichPager;
 
     private ArrayList<ChatData> chatDataList = new ArrayList<>();
+    private ArrayList<ContactData> contactDataList = new ArrayList<>();
 
 
 
@@ -61,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
         chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张五", "hfdjh", "12:32"));
         chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张六", "has", "12:33"));
 
+        contactDataList.add(new ContactData(R.drawable.ic_atm_normal, "张六"));
+        contactDataList.add(new ContactData(R.drawable.ic_atm_fill, "张四"));
+        contactDataList.add(new ContactData(R.drawable.ic_atm_normal, "张五"));
+
         mTitleName = findViewById(R.id.title_name);
         mBtnSearch = findViewById(R.id.btn_search);
         mBtnAdd = findViewById(R.id.btn_add);
@@ -77,18 +84,17 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: " + chatDataList.size() + "....." + chatDataList);
 
         ChatPager chatPager = new ChatPager(this, chatDataList);
-        View view = chatPager.initView();
+        ContactPager contactPager = new ContactPager(this, contactDataList);
 
-        TextView textView = new TextView(this);
-        textView.setText("Hello world");
-        TextView textView2 = new TextView(this);
-        textView2.setText("Hello world..");
+        View view = chatPager.initView();
+        View view1 = contactPager.initView();
+
         TextView textView3 = new TextView(this);
         textView3.setText("Hello world...");
         TextView textView4 = new TextView(this);
         textView4.setText("Hello world....");
         viewContainer.add(view);
-        viewContainer.add(textView2);
+        viewContainer.add(view1);
         viewContainer.add(textView3);
         viewContainer.add(textView4);
         mVpMain.setAdapter(new PagerAdapter() {
@@ -145,18 +151,22 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     whichPager = 0;
                     mVpMain.setCurrentItem(whichPager);
+                    mTitleName.setText("Chat");
                     break;
                 case R.id.rb_contact:
                     whichPager = 1;
                     mVpMain.setCurrentItem(whichPager);
+                    mTitleName.setText("联系人");
                     break;
                 case R.id.rb_found:
                     whichPager = 2;
                     mVpMain.setCurrentItem(whichPager);
+                    mTitleName.setText("朋友圈");
                     break;
                 case R.id.rb_me:
                     whichPager = 3;
                     mVpMain.setCurrentItem(whichPager);
+                    mTitleName.setText("我");
                     break;
             }
         }
