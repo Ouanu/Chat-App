@@ -61,6 +61,7 @@ public class FoundsAdapter extends BaseAdapter {
         } else {
             viewHolder.image.setImageResource(image);
         }
+        viewHolder.time.setText(foundsDataArrayList.get(position).getTime());
         return convertView;
     }
 

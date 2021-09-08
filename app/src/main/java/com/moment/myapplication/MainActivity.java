@@ -13,8 +13,10 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.moment.myapplication.data.ChatData;
 import com.moment.myapplication.data.ContactData;
+import com.moment.myapplication.data.FoundsData;
 import com.moment.myapplication.pager.ChatPager;
 import com.moment.myapplication.pager.ContactPager;
+import com.moment.myapplication.pager.FoundsPager;
 
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<ChatData> chatDataList = new ArrayList<>();
     private ArrayList<ContactData> contactDataList = new ArrayList<>();
-
+    private ArrayList<FoundsData> foundsDataArrayList = new ArrayList<>();
 
 
     @Override
@@ -68,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
         contactDataList.add(new ContactData(R.drawable.ic_atm_fill, "张四"));
         contactDataList.add(new ContactData(R.drawable.ic_atm_normal, "张五"));
 
+        foundsDataArrayList.add(new FoundsData(R.drawable.ic_atm_normal, "张六", "has", "12:43"));
+        foundsDataArrayList.add(new FoundsData(R.drawable.ic_atm_normal, "张六", "has", R.mipmap.test_picture, "12:56"));
+        foundsDataArrayList.add(new FoundsData(R.drawable.ic_atm_fill, "张12", "h654as", "12:33"));
+        foundsDataArrayList.add(new FoundsData(R.drawable.ic_atm_normal, "张3", "hhgtredfas", R.mipmap.ic_launcher, "12:35"));
+        foundsDataArrayList.add(new FoundsData(R.drawable.ic_atm_fill, "张654", "hhgfdas", "12:33"));
+        foundsDataArrayList.add(new FoundsData(R.drawable.ic_atm_normal, "张65", "hrteas", R.mipmap.test_picture, "12:93"));
+
+
         mTitleName = findViewById(R.id.title_name);
         mBtnSearch = findViewById(R.id.btn_search);
         mBtnAdd = findViewById(R.id.btn_add);
@@ -85,17 +95,18 @@ public class MainActivity extends AppCompatActivity {
 
         ChatPager chatPager = new ChatPager(this, chatDataList);
         ContactPager contactPager = new ContactPager(this, contactDataList);
+        FoundsPager foundsPager = new FoundsPager(this, foundsDataArrayList);
 
         View view = chatPager.initView();
         View view1 = contactPager.initView();
+        View view2 = foundsPager.initView();
 
-        TextView textView3 = new TextView(this);
-        textView3.setText("Hello world...");
+
         TextView textView4 = new TextView(this);
         textView4.setText("Hello world....");
         viewContainer.add(view);
         viewContainer.add(view1);
-        viewContainer.add(textView3);
+        viewContainer.add(view2);
         viewContainer.add(textView4);
         mVpMain.setAdapter(new PagerAdapter() {
             @Override

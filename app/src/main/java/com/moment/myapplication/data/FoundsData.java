@@ -5,6 +5,7 @@ public class FoundsData {
     private String name;
     private String content;
     private int image;
+    private String time;
 
     /**
      * 有配图
@@ -12,12 +13,14 @@ public class FoundsData {
      * @param name
      * @param content
      * @param image
+     * @param time
      */
-    public FoundsData(int path, String name, String content, int image) {
+    public FoundsData(int path, String name, String content, int image, String time) {
         this.path = path;
         this.name = name;
         this.content = content;
         this.image = image;
+        this.time = time;
     }
 
     /**
@@ -25,11 +28,13 @@ public class FoundsData {
      * @param path
      * @param name
      * @param content
+     * @param time
      */
-    public FoundsData(int path, String name, String content) {
+    public FoundsData(int path, String name, String content, String time) {
         this.path = path;
         this.name = name;
         this.content = content;
+        this.time = time;
     }
 
 
@@ -63,5 +68,13 @@ public class FoundsData {
 
     public void setImage(int image) {
         this.image = image;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
