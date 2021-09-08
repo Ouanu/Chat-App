@@ -2,13 +2,17 @@ package com.moment.myapplication.bean;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class Chat {
 
-    @PrimaryKey(autoGenerate = true)//主键是否自动增长，默认为false
-    private int uid;
+    @PrimaryKey(autoGenerate = true)
+    private int primaryId;
+
+    @ColumnInfo(name = "id")
+    private long id;
 
     @ColumnInfo(name = "imageUri")
     private int imageUri;
@@ -16,11 +20,35 @@ public class Chat {
     @ColumnInfo(name = "contactName")
     private String contactName;
 
-    @ColumnInfo(name = "talkRecord")
-    private String talkRecord;
+    @ColumnInfo(name = "recode")
+    private String recode;
 
-    @ColumnInfo(name = "Date")
-    private String Date;
+    @ColumnInfo(name = "date")
+    private String date;
+
+    public Chat(long id, int imageUri, String contactName, String recode, String date) {
+        this.id = id;
+        this.imageUri = imageUri;
+        this.contactName = contactName;
+        this.recode = recode;
+        this.date = date;
+    }
+
+    public int getPrimaryId() {
+        return primaryId;
+    }
+
+    public void setPrimaryId(int primaryId) {
+        this.primaryId = primaryId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public int getImageUri() {
         return imageUri;
@@ -38,22 +66,20 @@ public class Chat {
         this.contactName = contactName;
     }
 
-    public String getTalkRecord() {
-        return talkRecord;
+    public String getRecode() {
+        return recode;
     }
 
-    public void setTalkRecord(String talkRecord) {
-        this.talkRecord = talkRecord;
+    public void setRecode(String recode) {
+        this.recode = recode;
     }
 
     public String getDate() {
-        return Date;
+        return date;
     }
 
     public void setDate(String date) {
-        Date = date;
+        this.date = date;
     }
-
-
 }
 

@@ -9,9 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import androidx.room.DatabaseConfiguration;
+import androidx.room.InvalidationTracker;
+import androidx.room.Room;
+import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import com.moment.myapplication.bean.Chat;
+import com.moment.myapplication.dao.ChatDao;
 import com.moment.myapplication.data.ChatData;
+import com.moment.myapplication.data.ChatDatabase;
 import com.moment.myapplication.data.ContactData;
 import com.moment.myapplication.data.FoundsData;
 import com.moment.myapplication.pager.ChatPager;
@@ -28,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTitleName;
     private ImageButton mBtnSearch;
     private ImageButton mBtnAdd;
-//    private RadioButton mRbChat;
+    //    private RadioButton mRbChat;
 //    private RadioButton mRbContact;
 //    private RadioButton mRbFound;
 //    private RadioButton mRbMe;
@@ -43,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ContactData> contactDataList = new ArrayList<>();
     private ArrayList<FoundsData> foundsDataArrayList = new ArrayList<>();
 
+
+    ChatDatabase chatDatabase;
+    ChatDao chatDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +75,40 @@ public class MainActivity extends AppCompatActivity {
         chatDataList.add(new ChatData(R.drawable.ic_atm_fill, "张四", "hfda", "12:31"));
         chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张五", "hfdjh", "12:32"));
         chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张六", "has", "12:33"));
+
+
+        chatDatabase = Room.databaseBuilder(this, ChatDatabase.class, "chat_database")
+                .allowMainThreadQueries()
+                .build();
+        chatDao = chatDatabase.getChatDao();
+
+        List<Chat> chatList = chatDao.getChatList();
+
+        Chat chat = new Chat(
+                1,
+                R.drawable.ic_atm_fill,
+                "张六",
+                "has",
+                "12:33");
+
+        Chat chat1 = new Chat(
+                2,
+                R.drawable.ic_atm_fill,
+                "张六rew",
+                "hars",
+                "12:fda3");
+
+        Chat chat2 = new Chat(
+                3,
+                R.drawable.ic_atm_normal,
+                "张yi",
+                "hasfd",
+                "12:43");
+
+        chatDao.insertAllChats(chat, chat1, chat2);
+
+        Log.d(TAG, "onCreate: " + chatList);
+
 
         contactDataList.add(new ContactData(R.drawable.ic_atm_normal, "张六"));
         contactDataList.add(new ContactData(R.drawable.ic_atm_fill, "张四"));

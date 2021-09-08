@@ -1,31 +1,36 @@
 package com.moment.myapplication.dao;
 
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
+import androidx.room.*;
 import com.moment.myapplication.bean.Chat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Dao
 public interface ChatDao {
 
-    @Query("SELECT * FROM chat")
-    ArrayList<Chat> getAll();
-
-    @Query("SELECT * FROM chat WHERE uid IN (:userIds)")
-    ArrayList<Chat> loadAllByIds(int[] userIds);
-
-    @Query("SELECT * FROM chat WHERE contactName=:contactName")
-    Chat findByName(String contactName);
+    @Insert
+    void insertChat(Chat chat);
 
     @Insert
-    void insertAll(Chat... chats);
+    void insertAllChats(Chat... chats);
+
+    @Update
+    void updateChat(Chat chat);
+
+    @Update
+    void updateAllChat(Chat... chats);
 
     @Delete
-    void delete(Chat chat);
+    void deleteChats(Chat... chats);
 
-    @Delete
-    void deleteAll(Chat... chats);
+    @Query("DELETE FROM Chat")
+    void deleteAllChats();
+
+    @Query("SELECT * FROM CHAT ORDER BY PRIMARYID DESC")
+    List<Chat> getChatList();
+
+    @Query("SELECT * FROM chat WHERE contactName= :contactName")
+    Chat getChatByContactName(String contactName);
+
 }
