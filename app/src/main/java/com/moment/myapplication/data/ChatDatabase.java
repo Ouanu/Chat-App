@@ -7,8 +7,19 @@ import androidx.room.RoomDatabase;
 import com.moment.myapplication.bean.Chat;
 import com.moment.myapplication.dao.ChatDao;
 
+
+//singleton
 @Database(entities = { Chat.class }, version = 1, exportSchema = false)
 public abstract class ChatDatabase extends RoomDatabase {
+    private static ChatDatabase INSTANCE;
+    static synchronized ChatDatabase getDatabase(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), ChatDatabase.class, "chat_database")
+                    .allowMainThreadQueries()
+                    .build();
+        }
+        return INSTANCE;
+    }
     public abstract ChatDao getChatDao();
 
 }

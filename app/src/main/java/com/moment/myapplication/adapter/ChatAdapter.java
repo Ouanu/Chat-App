@@ -7,10 +7,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.moment.myapplication.R;
+import com.moment.myapplication.bean.Chat;
 import com.moment.myapplication.data.ChatData;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 构造Chat Item样式
@@ -18,9 +20,9 @@ import java.util.ArrayList;
 public class ChatAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<ChatData> chatDataArrayList = new ArrayList<>();
+    private List<Chat> chatDataArrayList = new ArrayList<>();
 
-    public ChatAdapter(Context context, ArrayList<ChatData> chatDataArrayList) {
+    public ChatAdapter(Context context, List<Chat> chatDataArrayList) {
         this.context = context;
         this.chatDataArrayList = chatDataArrayList;
     }
@@ -57,7 +59,7 @@ public class ChatAdapter extends BaseAdapter {
 
         viewHolder.icon.setImageResource(chatDataArrayList.get(position).getImageUri());
         viewHolder.contactName.setText(chatDataArrayList.get(position).getContactName());
-        viewHolder.contactRecord.setText(chatDataArrayList.get(position).getTalkRecord());
+        viewHolder.contactRecord.setText(chatDataArrayList.get(position).getRecode());
         viewHolder.time.setText(chatDataArrayList.get(position).getDate());
 
         return convertView;

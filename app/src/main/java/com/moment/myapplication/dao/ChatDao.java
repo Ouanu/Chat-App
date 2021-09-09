@@ -1,5 +1,6 @@
 package com.moment.myapplication.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.*;
 import com.moment.myapplication.bean.Chat;
 
@@ -27,8 +28,11 @@ public interface ChatDao {
     @Query("DELETE FROM Chat")
     void deleteAllChats();
 
-    @Query("SELECT * FROM CHAT ORDER BY PRIMARYID DESC")
-    List<Chat> getChatList();
+    @Query("SELECT * FROM chat")
+    LiveData<List<Chat>> getChatList();
+
+    @Query("SELECT * FROM chat")
+    List<Chat> getAllChatList();
 
     @Query("SELECT * FROM chat WHERE contactName= :contactName")
     Chat getChatByContactName(String contactName);

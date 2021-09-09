@@ -1,5 +1,6 @@
 package com.moment.myapplication;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.room.Room;
@@ -28,6 +31,7 @@ import com.moment.myapplication.pager.FoundsPager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,81 +50,38 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup mRgMain;
     private int whichPager;
 
-    private ArrayList<ChatData> chatDataList = new ArrayList<>();
     private ArrayList<ContactData> contactDataList = new ArrayList<>();
     private ArrayList<FoundsData> foundsDataArrayList = new ArrayList<>();
 
+    Chat chat = new Chat(
+            1,
+            R.drawable.ic_atm_fill,
+            "张六",
+            "has",
+            "12:33");
+
+    Chat chat1 = new Chat(
+            2,
+            R.drawable.ic_atm_fill,
+            "张六rew",
+            "hars",
+            "12:fda3");
+
+    Chat chat2 = new Chat(
+            3,
+            R.drawable.ic_atm_normal,
+            "张yi",
+            "hasfd",
+            "12:43");
 
     ChatDatabase chatDatabase;
     ChatDao chatDao;
+    List<Chat> resultList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张三", "hfdasjh", "12:30"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_fill, "张四", "hfda", "12:31"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张五", "hfdjh", "12:32"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张六", "has", "12:33"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张三", "hfdasjh", "12:30"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_fill, "张四", "hfda", "12:31"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张五", "hfdjh", "12:32"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张六", "has", "12:33"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张三", "hfdasjh", "12:30"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_fill, "张四", "hfda", "12:31"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张五", "hfdjh", "12:32"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张六", "has", "12:33"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张三", "hfdasjh", "12:30"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_fill, "张四", "hfda", "12:31"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张五", "hfdjh", "12:32"));
-        chatDataList.add(new ChatData(R.drawable.ic_atm_normal, "张六", "has", "12:33"));
-
-
-        chatDatabase = Room.databaseBuilder(this, ChatDatabase.class, "chat_database")
-                .allowMainThreadQueries()
-                .build();
-        chatDao = chatDatabase.getChatDao();
-
-        List<Chat> chatList = chatDao.getChatList();
-
-        Chat chat = new Chat(
-                1,
-                R.drawable.ic_atm_fill,
-                "张六",
-                "has",
-                "12:33");
-
-        Chat chat1 = new Chat(
-                2,
-                R.drawable.ic_atm_fill,
-                "张六rew",
-                "hars",
-                "12:fda3");
-
-        Chat chat2 = new Chat(
-                3,
-                R.drawable.ic_atm_normal,
-                "张yi",
-                "hasfd",
-                "12:43");
-
-        chatDao.insertAllChats(chat, chat1, chat2);
-
-        Log.d(TAG, "onCreate: " + chatList);
-
-
-        contactDataList.add(new ContactData(R.drawable.ic_atm_normal, "张六"));
-        contactDataList.add(new ContactData(R.drawable.ic_atm_fill, "张四"));
-        contactDataList.add(new ContactData(R.drawable.ic_atm_normal, "张五"));
-
-        foundsDataArrayList.add(new FoundsData(R.drawable.ic_atm_normal, "张六", "has", "12:43"));
-        foundsDataArrayList.add(new FoundsData(R.drawable.ic_atm_normal, "张六", "has", R.mipmap.test_picture, "12:56"));
-        foundsDataArrayList.add(new FoundsData(R.drawable.ic_atm_fill, "张12", "h654as", "12:33"));
-        foundsDataArrayList.add(new FoundsData(R.drawable.ic_atm_normal, "张3", "hhgtredfas", R.mipmap.ic_launcher, "12:35"));
-        foundsDataArrayList.add(new FoundsData(R.drawable.ic_atm_fill, "张654", "hhgfdas", "12:33"));
-        foundsDataArrayList.add(new FoundsData(R.drawable.ic_atm_normal, "张65", "hrteas", R.mipmap.test_picture, "12:93"));
-
 
         mTitleName = findViewById(R.id.title_name);
         mBtnSearch = findViewById(R.id.btn_search);
@@ -135,23 +96,70 @@ public class MainActivity extends AppCompatActivity {
         mRgMain.setOnCheckedChangeListener(new MainOnCheckedChangeListener());
         mRgMain.check(R.id.rb_chat);
 
-        Log.d(TAG, "onCreate: " + chatDataList.size() + "....." + chatDataList);
+        chatDatabase = Room.databaseBuilder(this, ChatDatabase.class, "chat_database")
+                .allowMainThreadQueries()
+                .build();
+        chatDao = chatDatabase.getChatDao();
 
-        ChatPager chatPager = new ChatPager(this, chatDataList);
+
+
+
+
+//        chatDao.insertAllChats(chat, chat1, chat2);
+
+
+//
+        mBtnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new InsertAsyncTask(chatDao).doInBackground(chat, chat1, chat2);
+            }
+        });
+
+
+        contactDataList.add(new ContactData(2131165298, "fdhsajk"));
+        contactDataList.add(new ContactData(2131165299, "fdhsajk"));
+
+
+        LiveData<List<Chat>> chatList = chatDao.getChatList();
+
+//        chatList.observe(this, new Observer<List<Chat>>() {
+//            @Override
+//            public void onChanged(List<Chat> chats) {
+//                ChatPager chatPager = new ChatPager(getApplicationContext(), chats);
+//                View view = chatPager.initView();
+//                viewContainer.add(view);
+//            }
+//        });
+
+
+
         ContactPager contactPager = new ContactPager(this, contactDataList);
+
+        View view1 = contactPager.initView();
+
+        Log.d(TAG, "onCreate: ----------" + chatList.getValue());
+        resultList = chatDao.getAllChatList();
+
+
+        ChatPager chatPager = new ChatPager(this, resultList);
+        View view = chatPager.initView();
+        viewContainer.add(view);
+
+        mTitleName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultList = chatDao.getAllChatList();
+                Log.d(TAG, "onClick: ---------" + resultList);
+            }
+        });
+
+        viewContainer.add(view1);
+
         FoundsPager foundsPager = new FoundsPager(this, foundsDataArrayList);
 
-        View view = chatPager.initView();
-        View view1 = contactPager.initView();
-        View view2 = foundsPager.initView();
+        Log.d(TAG, "onCreate: " + viewContainer.size());
 
-
-        TextView textView4 = new TextView(this);
-        textView4.setText("Hello world....");
-        viewContainer.add(view);
-        viewContainer.add(view1);
-        viewContainer.add(view2);
-        viewContainer.add(textView4);
         mVpMain.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
@@ -177,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-//                super.destroyItem(container, position, object);
+                super.destroyItem(container, position, object);
                 container.removeView((View) object);
             }
         });
@@ -227,5 +235,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    static class InsertAsyncTask extends AsyncTask<Chat, Void, Void> {
+        private ChatDao chatDao;
+        public InsertAsyncTask(ChatDao chatDao) {
+            this.chatDao = chatDao;
+        }
+        @Override
+        protected Void doInBackground(Chat... chats) {
+            chatDao.insertAllChats(chats);
+            return null;
+        }
+    }
+
 
 }

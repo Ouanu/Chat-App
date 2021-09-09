@@ -5,8 +5,10 @@ import android.view.View;
 import android.widget.ListView;
 import com.moment.myapplication.R;
 import com.moment.myapplication.adapter.ChatAdapter;
+import com.moment.myapplication.bean.Chat;
 import com.moment.myapplication.data.ChatData;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChatPager{
 
@@ -14,9 +16,9 @@ public class ChatPager{
 
     private ListView mLvItemPager;
     private Context context;
-    private ArrayList<ChatData> chatDataList;
+    private List<Chat> chatDataList;
 
-    public ChatPager(Context context, ArrayList<ChatData> chatDataList) {
+    public ChatPager(Context context, List<Chat> chatDataList) {
         this.context = context;
         this.chatDataList = chatDataList;
     }
