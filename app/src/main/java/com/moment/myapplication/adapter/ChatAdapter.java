@@ -27,6 +27,22 @@ public class ChatAdapter extends BaseAdapter {
         this.chatDataArrayList = chatDataArrayList;
     }
 
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public List<Chat> getChatDataArrayList() {
+        return chatDataArrayList;
+    }
+
+    public void setChatDataArrayList(List<Chat> chatDataArrayList) {
+        this.chatDataArrayList = chatDataArrayList;
+    }
+
     @Override
     public int getCount() {
         return chatDataArrayList.size();
