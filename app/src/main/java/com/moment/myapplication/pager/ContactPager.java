@@ -6,16 +6,18 @@ import android.widget.ListView;
 import com.moment.myapplication.R;
 import com.moment.myapplication.adapter.ChatAdapter;
 import com.moment.myapplication.adapter.ContactAdapter;
+import com.moment.myapplication.bean.Contact;
 import com.moment.myapplication.data.ContactData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactPager {
     private Context context;
-    private ArrayList<ContactData> contactDataArrayList;
+    private List<Contact> contactDataArrayList;
     private ListView mLvItemPager;
 
-    public ContactPager(Context context, ArrayList<ContactData> contactDataArrayList) {
+    public ContactPager(Context context, List<Contact> contactDataArrayList) {
         this.context = context;
         this.contactDataArrayList = contactDataArrayList;
     }

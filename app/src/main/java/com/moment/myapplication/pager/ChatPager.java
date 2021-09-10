@@ -15,10 +15,14 @@ public class ChatPager{
 
     private final static String TAG = "ChatPager";
 
-    private ListView mLvItemPager;
+    public ListView mLvItemPager;
     private Context context;
     private List<Chat> chatDataList;
-    private ChatAdapter chatAdapter;
+    public ChatAdapter chatAdapter;
+
+    public ListView getmLvItemPager() {
+        return mLvItemPager;
+    }
 
     public ChatPager(Context context, List<Chat> chatDataList) {
         this.context = context;
@@ -40,5 +44,6 @@ public class ChatPager{
         Log.d(TAG, "updateView: " + this.chatDataList.size());
         initView();
     }
+
 
 }

@@ -7,15 +7,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.moment.myapplication.R;
+import com.moment.myapplication.bean.Contact;
 import com.moment.myapplication.data.ContactData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<ContactData> contactDataArrayList;
+    private List<Contact> contactDataArrayList;
 
-    public ContactAdapter(Context context, ArrayList<ContactData> contactDataArrayList) {
+    public ContactAdapter(Context context, List<Contact> contactDataArrayList) {
         this.context = context;
         this.contactDataArrayList = contactDataArrayList;
     }
@@ -49,8 +51,8 @@ public class ContactAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.imageView.setImageResource(contactDataArrayList.get(position).getPath());
-        viewHolder.name.setText(contactDataArrayList.get(position).getName());
+        viewHolder.imageView.setImageResource(contactDataArrayList.get(position).getImageUri());
+        viewHolder.name.setText(contactDataArrayList.get(position).getContactName());
 
         return convertView;
     }
