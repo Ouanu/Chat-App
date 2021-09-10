@@ -63,14 +63,6 @@ public class MainActivity extends AppCompatActivity {
         mRgMain.setOnCheckedChangeListener(new MainOnCheckedChangeListener());
         mRgMain.check(R.id.rb_chat);
 
-//        View view1 = new View(this);
-//        View view2 = new View(this);
-//        View view3 = new View(this);
-//        View view4 = new View(this);
-//        viewContainer.add(view1);
-//        viewContainer.add(view2);
-//        viewContainer.add(view3);
-//        viewContainer.add(view4);
         handler.sendEmptyMessage(READYFORGETMESSAGE);
 
 
