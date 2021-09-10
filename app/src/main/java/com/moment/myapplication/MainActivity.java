@@ -13,16 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import androidx.room.Room;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.moment.myapplication.bean.Chat;
-import com.moment.myapplication.bean.Contact;
-import com.moment.myapplication.dao.ChatDao;
-import com.moment.myapplication.data.ChatDatabase;
+
 import com.moment.myapplication.module.ChatViewModule;
-import com.moment.myapplication.pager.ChatPager;
-import com.moment.myapplication.pager.ContactPager;
+
 
 
 import java.util.ArrayList;
