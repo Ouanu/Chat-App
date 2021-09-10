@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
                 chatViewModule.getChatDao().insertChat(new Chat(12345, R.drawable.ic_atm_fill,
                         "zhang", "WUlala", "12:23"));
                 chatViewModule.updateListView();
+                mVpMain.getAdapter().notifyDataSetChanged();
+                mVpMain.setAdapter(mVpMain.getAdapter());
 //                TextView textView = new TextView(getApplicationContext());
 //                textView.setText("HELLO");
 //                viewContainer.add(textView);

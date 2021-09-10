@@ -1,6 +1,7 @@
 package com.moment.myapplication.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -60,6 +61,7 @@ public class ChatAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Log.d("ChatAdapter", "getCount: " + chatDataArrayList.size());
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.item_chat_pager, null);

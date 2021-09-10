@@ -16,13 +16,14 @@ public class ChatViewModule {
     private View view;
     private ChatDao chatDao;
     private ChatPager chatPager;
+    private List<Chat> chatList;
 
     public void buildChatPager(Context context) {
         ChatDatabase chatDatabase = Room.databaseBuilder(context, ChatDatabase.class, "chat_database")
                 .allowMainThreadQueries()
                 .build();
         chatDao = chatDatabase.getChatDao();
-        List<Chat> chatList = chatDao.getAllChatList();
+        chatList = chatDao.getAllChatList();
         chatPager = new ChatPager(context, chatList);
         view = chatPager.initView();
 
@@ -31,7 +32,9 @@ public class ChatViewModule {
     }
 
     public void updateListView() {
-        chatPager.chatAdapter.notifyDataSetChanged();
+        chatList = chatDao.getAllChatList();
+        chatPager.chatAdapter.setChatDataArrayList(chatList);
+        chatPager.mLvItemPager.setAdapter(chatPager.chatAdapter);
     }
 
     public View getView() {
