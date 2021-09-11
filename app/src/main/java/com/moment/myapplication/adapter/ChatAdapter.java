@@ -9,10 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.moment.myapplication.R;
 import com.moment.myapplication.bean.Chat;
-import com.moment.myapplication.data.ChatData;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,24 +17,12 @@ import java.util.List;
  */
 public class ChatAdapter extends BaseAdapter {
 
-    private Context context;
-    private List<Chat> chatDataArrayList = new ArrayList<>();
+    private final Context context;
+    private List<Chat> chatDataArrayList;
 
     public ChatAdapter(Context context, List<Chat> chatDataArrayList) {
         this.context = context;
         this.chatDataArrayList = chatDataArrayList;
-    }
-
-    public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    public List<Chat> getChatDataArrayList() {
-        return chatDataArrayList;
     }
 
     public void setChatDataArrayList(List<Chat> chatDataArrayList) {
@@ -82,7 +67,7 @@ public class ChatAdapter extends BaseAdapter {
 
         return convertView;
     }
-    class ViewHolder {
+    static class ViewHolder {
         ImageView icon;
         TextView contactName;
         TextView contactRecord;

@@ -31,6 +31,14 @@ public class ChatViewModule {
         chatPager.mLvItemPager.setOnItemClickListener((parent, view, position, id) -> Log.d(TAG, "onItemClick: " + "===================" + position));
     }
 
+    public List<Chat> getChatList() {
+        return chatList;
+    }
+
+    public void setChatList(List<Chat> chatList) {
+        this.chatList = chatList;
+    }
+
     public void updateListView() {
         chatList = chatDao.getAllChatList();
         chatPager.chatAdapter.setChatDataArrayList(chatList);

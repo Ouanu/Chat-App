@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.moment.myapplication.R;
+import com.moment.myapplication.bean.Chat;
 import com.moment.myapplication.bean.Contact;
 import com.moment.myapplication.data.ContactData;
 
@@ -56,7 +57,9 @@ public class ContactAdapter extends BaseAdapter {
 
         return convertView;
     }
-
+    public void setContactDataArrayList(List<Contact> chatDataArrayList) {
+        this.contactDataArrayList = contactDataArrayList;
+    }
     class ViewHolder {
         private TextView name;
         private ImageView imageView;

@@ -16,8 +16,9 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.moment.myapplication.bean.Chat;
 
+import com.moment.myapplication.bean.Contact;
 import com.moment.myapplication.module.ChatViewModule;
-
+import com.moment.myapplication.module.ContactViewModule;
 
 
 import java.util.ArrayList;
@@ -39,8 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int READYFORGETMESSAGE = 1000;
     private mHandler handler = new mHandler();
 
-    ChatViewModule chatViewModule = new ChatViewModule();
-
+//    ChatViewModule chatViewModule = new ChatViewModule();
+    ContactViewModule contactViewModule = new ContactViewModule();
+    List<Contact> contactList = new ArrayList<>();
+    private static final int REFLASH_CONTACTPAGER = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
         handler.sendEmptyMessage(READYFORGETMESSAGE);
 
 
-        mBtnAdd.setOnClickListener(v -> {
-            chatViewModule.getChatDao().insertChat(new Chat(12345, R.drawable.ic_atm_fill,
-                    "zhang", "WUlala", "12:23"));
-            chatViewModule.updateListView();
-            Objects.requireNonNull(mVpMain.getAdapter()).notifyDataSetChanged();
-            mVpMain.setAdapter(mVpMain.getAdapter());
-        });
+//        mBtnAdd.setOnClickListener(v -> {
+//            chatViewModule.getChatDao().insertChat(new Chat(12345, R.drawable.ic_atm_fill,
+//                    "zhang", "WUlala", "12:23"));
+//            chatViewModule.updateListView();
+//            Objects.requireNonNull(mVpMain.getAdapter()).notifyDataSetChanged();
+//            mVpMain.setAdapter(mVpMain.getAdapter());
+//        });
 
 
         mVpMainSetAdapter();
@@ -130,11 +133,27 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 让子线程构建聊天总界面
      */
-    private void getChatPagerThread() {
-        new Thread(() -> {
-            Log.d(TAG, "run: " + "runnable ++++++++++++");
-            chatViewModule.buildChatPager(MainActivity.this);
-            handler.sendEmptyMessage(REFLASH_CHATPAGER);
+//    private void getChatPagerThread() {
+//        new Thread(() -> {
+//            Log.d(TAG, "run: " + "runnable ++++++++++++");
+//            chatViewModule.buildChatPager(MainActivity.this);
+//            handler.sendEmptyMessage(REFLASH_CHATPAGER);
+//        }).start();
+//    }
+
+
+
+
+    /**
+     * 子线程构建联系人页面
+     */
+    private void getContactThread() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                contactViewModule.buildContactPager(MainActivity.this);
+                handler.sendEmptyMessage(REFLASH_CONTACTPAGER);
+            }
         }).start();
     }
 
@@ -184,18 +203,25 @@ public class MainActivity extends AppCompatActivity {
 //            super.handleMessage(msg);
             switch (msg.what) {
                 case READYFORGETMESSAGE:
-                    getChatPagerThread();
+//                    getChatPagerThread();
+                    getContactThread();
                     handler.removeMessages(READYFORGETMESSAGE);
                     break;
                 case REFLASH_CHATPAGER:
-                    View view = chatViewModule.getView();
+//                    View view = chatViewModule.getView();
 //                    viewContainer.remove(0);
-                    viewContainer.add(0, view);
+//                    viewContainer.add(0, view);
                     Objects.requireNonNull(mVpMain.getAdapter()).notifyDataSetChanged();
                     mVpMain.setAdapter(mVpMain.getAdapter());
                     handler.removeMessages(REFLASH_CHATPAGER);
                     Log.d(TAG, "handleMessage: IGOTMESSAGE");
                     break;
+                case REFLASH_CONTACTPAGER:
+                    View view1 = contactViewModule.getView();
+                    viewContainer.add(1, view1);
+                    Objects.requireNonNull(mVpMain.getAdapter()).notifyDataSetChanged();
+                    mVpMain.setAdapter(mVpMain.getAdapter());
+                    handler.removeMessages(REFLASH_CONTACTPAGER);
                 default:
                     throw new IllegalStateException("Unexpected value: " + msg.what);
             }
