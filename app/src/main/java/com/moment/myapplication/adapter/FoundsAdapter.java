@@ -1,12 +1,14 @@
 package com.moment.myapplication.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.moment.myapplication.R;
+import com.moment.myapplication.bean.FoundsData;
 
 import java.util.ArrayList;
 
@@ -50,14 +52,14 @@ public class FoundsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.icon.setImageResource(foundsDataArrayList.get(position).getPath());
+        viewHolder.icon.setImageURI(Uri.parse(foundsDataArrayList.get(position).getIcon()));
         viewHolder.name.setText(foundsDataArrayList.get(position).getName());
         viewHolder.content.setText(foundsDataArrayList.get(position).getContent());
-        int image = foundsDataArrayList.get(position).getImage();
-        if (image == 0) {
+        String image = foundsDataArrayList.get(position).getImage();
+        if (image.isEmpty()) {
             viewHolder.image.setVisibility(View.GONE);
         } else {
-            viewHolder.image.setImageResource(image);
+            viewHolder.image.setImageURI(Uri.parse(image));
         }
         viewHolder.time.setText(foundsDataArrayList.get(position).getTime());
         return convertView;

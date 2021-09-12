@@ -1,6 +1,7 @@
 package com.moment.myapplication.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.moment.myapplication.R;
+
+import com.moment.myapplication.bean.ChatData;
+
 
 import java.util.List;
 
@@ -17,14 +21,10 @@ import java.util.List;
 public class ChatAdapter extends BaseAdapter {
 
     private final Context context;
-    private List<Chat> chatDataArrayList;
+    private List<ChatData> chatDataArrayList;
 
-    public ChatAdapter(Context context, List<Chat> chatDataArrayList) {
+    public ChatAdapter(Context context, List<ChatData> chatDataArrayList) {
         this.context = context;
-        this.chatDataArrayList = chatDataArrayList;
-    }
-
-    public void setChatDataArrayList(List<Chat> chatDataArrayList) {
         this.chatDataArrayList = chatDataArrayList;
     }
 
@@ -59,10 +59,10 @@ public class ChatAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.icon.setImageResource(chatDataArrayList.get(position).getImageUri());
+        viewHolder.icon.setImageURI(Uri.parse(chatDataArrayList.get(position).getImageSrc()));
         viewHolder.contactName.setText(chatDataArrayList.get(position).getContactName());
-        viewHolder.contactRecord.setText(chatDataArrayList.get(position).getRecode());
-        viewHolder.time.setText(chatDataArrayList.get(position).getDate());
+        viewHolder.contactRecord.setText(chatDataArrayList.get(position).getRecord());
+        viewHolder.time.setText(chatDataArrayList.get(position).getTime());
 
         return convertView;
     }

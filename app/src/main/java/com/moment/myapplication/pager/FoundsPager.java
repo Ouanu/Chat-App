@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ListView;
 import com.moment.myapplication.R;
 import com.moment.myapplication.adapter.FoundsAdapter;
+import com.moment.myapplication.bean.FoundsData;
 
 import java.util.ArrayList;
 

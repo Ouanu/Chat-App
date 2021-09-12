@@ -4,6 +4,8 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import com.moment.myapplication.bean.Chat;
+import com.moment.myapplication.dao.ChatDao;
 
 
 //singleton

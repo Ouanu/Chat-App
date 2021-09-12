@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ListView;
 import com.moment.myapplication.R;
 import com.moment.myapplication.adapter.ChatAdapter;
+import com.moment.myapplication.bean.ChatData;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class ChatPager{
     public ChatAdapter chatAdapter;
 
 
-    public ChatPager(Context context, List<Chat> chatDataList) {
+    public ChatPager(Context context, List<ChatData> chatDataList) {
         this.context = context;
         chatAdapter = new ChatAdapter(context, chatDataList);
 

@@ -2,6 +2,8 @@ package com.moment.myapplication;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -12,13 +14,21 @@ import android.view.ViewGroup;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import com.moment.myapplication.bean.Chat;
+import com.moment.myapplication.bean.ChatData;
+import com.moment.myapplication.bean.ContactData;
+import com.moment.myapplication.dao.ChatDao;
+import com.moment.myapplication.data.ChatDatabase;
+import com.moment.myapplication.pager.ChatPager;
+import com.moment.myapplication.pager.ContactPager;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REFLASH_CONTACTPAGER = 2;
 
+    ChatDatabase chatDatabase;
+    ChatDao chatDao;
+    private List<ContactData> contactDataList = new ArrayList<>();
+    private List<Chat> chatList = new ArrayList<>();
+    private List<ChatData> chatDataList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,20 +62,51 @@ public class MainActivity extends AppCompatActivity {
         ImageButton mBtnAdd = findViewById(R.id.btn_add);
         mVpMain = findViewById(R.id.vp_main);
         mRgMain = findViewById(R.id.rg_main);
-
         mRgMain.setOnCheckedChangeListener(new MainOnCheckedChangeListener());
         mRgMain.check(R.id.rb_chat);
-//        mBtnAdd.setOnClickListener(v -> {
-//            chatViewModule.getChatDao().insertChat(new Chat(12345, R.drawable.ic_atm_fill,
-//                    "zhang", "WUlala", "12:23"));
-//            chatViewModule.updateListView();
-//            Objects.requireNonNull(mVpMain.getAdapter()).notifyDataSetChanged();
-//            mVpMain.setAdapter(mVpMain.getAdapter());
-//        });
 
+        chatDatabase = Room.databaseBuilder(this, ChatDatabase.class, "chat_database")
+                .allowMainThreadQueries()
+                .build();
+        chatDao = chatDatabase.getChatDao();
+        chatList = chatDao.getChatList();
+
+        View viewPager0 = getChatView(chatList);
+        View viewPager1 = getContactView(chatList);
+
+        viewContainer.add(viewPager0);
+        viewContainer.add(viewPager1);
 
         mVpMainSetAdapter();
         mVpMainAddOnPageChangeListener();
+    }
+
+    private View getChatView(List<Chat> chatList) {
+        for (int i = 0; i < chatList.size(); i++) {
+            SharedPreferences sharedPreferences = getSharedPreferences(String.valueOf(chatList.get(i).getId()), Context.MODE_PRIVATE);
+            chatDataList.add(new ChatData(chatList.get(i).getId(),
+                    chatList.get(i).getContactName(),
+                    chatList.get(i).getImageSrc(),
+                    sharedPreferences.getString("record", null),
+                    sharedPreferences.getString("time", null)));
+            if (chatDataList.get(i).getRecord().isEmpty()) {
+                chatDataList.remove(i);
+            }
+        }
+        ChatPager chatPager = new ChatPager(this, chatDataList);
+        View chatView = chatPager.initView();
+        return chatView;
+    }
+
+    private View getContactView(List<Chat> chatList) {
+        for (int i = 0; i < chatList.size(); i++) {
+            contactDataList.add(new ContactData(chatList.get(i).getId(),
+                    chatList.get(i).getContactName(),
+                    chatList.get(i).getImageSrc()));
+        }
+        ContactPager contactPager = new ContactPager(this, contactDataList);
+        View contactView = contactPager.initView();
+        return contactView;
     }
 
     /**

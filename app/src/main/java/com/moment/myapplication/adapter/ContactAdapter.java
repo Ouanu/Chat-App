@@ -1,20 +1,22 @@
 package com.moment.myapplication.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.moment.myapplication.R;
+import com.moment.myapplication.bean.ContactData;
 
 import java.util.List;
 
 public class ContactAdapter extends BaseAdapter {
     private Context context;
-    private List<Contact> contactDataArrayList;
+    private List<ContactData> contactDataArrayList;
 
-    public ContactAdapter(Context context, List<Contact> contactDataArrayList) {
+    public ContactAdapter(Context context, List<ContactData> contactDataArrayList) {
         this.context = context;
         this.contactDataArrayList = contactDataArrayList;
     }
@@ -48,12 +50,12 @@ public class ContactAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.imageView.setImageResource(contactDataArrayList.get(position).getImageUri());
+        viewHolder.imageView.setImageURI(Uri.parse(contactDataArrayList.get(position).getImageSrc()));
         viewHolder.name.setText(contactDataArrayList.get(position).getContactName());
 
         return convertView;
     }
-    public void setContactDataArrayList(List<Contact> chatDataArrayList) {
+    public void setContactDataArrayList(List<ContactData> chatDataArrayList) {
         this.contactDataArrayList = contactDataArrayList;
     }
     class ViewHolder {
