@@ -7,8 +7,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.moment.myapplication.R;
-import com.moment.myapplication.data.ContactData;
-import com.moment.myapplication.data.FoundsData;
 
 import java.util.ArrayList;
 

@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.moment.myapplication.R;
-import com.moment.myapplication.bean.Chat;
 
 import java.util.List;
 

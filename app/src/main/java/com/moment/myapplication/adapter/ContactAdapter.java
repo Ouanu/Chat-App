@@ -7,11 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.moment.myapplication.R;
-import com.moment.myapplication.bean.Chat;
-import com.moment.myapplication.bean.Contact;
-import com.moment.myapplication.data.ContactData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContactAdapter extends BaseAdapter {
