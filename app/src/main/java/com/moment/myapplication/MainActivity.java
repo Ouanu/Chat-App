@@ -34,7 +34,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private static final int REFLASH_CHATPAGER = 1;
+    private static final int READY_FOR_FLASH = 1000;
     private TextView mTitleName;
     private ViewPager mVpMain;
     /**
@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private List<View> viewContainer = new ArrayList<>();
     private RadioGroup mRgMain;
-    private static final int READYFORGETMESSAGE = 1000;
 
-    private static final int REFLASH_CONTACTPAGER = 2;
 
     ChatDatabase chatDatabase;
     ChatDao chatDao;
+    ContactPager contactPager;
+    mHandler handler = new mHandler();
     private List<ContactData> contactDataList = new ArrayList<>();
     private List<Chat> chatList = new ArrayList<>();
     private List<ChatData> chatDataList = new ArrayList<>();
@@ -64,6 +64,17 @@ public class MainActivity extends AppCompatActivity {
         mRgMain = findViewById(R.id.rg_main);
         mRgMain.setOnCheckedChangeListener(new MainOnCheckedChangeListener());
         mRgMain.check(R.id.rb_chat);
+        mBtnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chatDao.insertChat(new Chat(1267, "wbbaa", null));
+                contactDataList.add(new ContactData(1267, "wbbaa", null));
+                contactPager.contactAdapter.setContactDataArrayList(contactDataList);
+                contactPager.contactAdapter.notifyDataSetChanged();
+                contactPager.mLvItemPager.setAdapter(contactPager.contactAdapter);
+                handler.sendEmptyMessage(READY_FOR_FLASH);
+            }
+        });
 
         chatDatabase = Room.databaseBuilder(this, ChatDatabase.class, "chat_database")
                 .allowMainThreadQueries()
@@ -71,12 +82,23 @@ public class MainActivity extends AppCompatActivity {
         chatDao = chatDatabase.getChatDao();
         chatList = chatDao.getChatList();
 
-        View viewPager0 = getChatView(chatList);
-        View viewPager1 = getContactView(chatList);
-        
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                View viewPager0 = getChatView(chatList);
+                viewContainer.add(viewPager0);
+                handler.sendEmptyMessage(READY_FOR_FLASH);
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                View viewPager1 = getContactView(chatList);
+                viewContainer.add(viewPager1);
+                handler.sendEmptyMessage(READY_FOR_FLASH);
+            }
+        }).start();
 
-        viewContainer.add(viewPager0);
-        viewContainer.add(viewPager1);
 
         mVpMainSetAdapter();
         mVpMainAddOnPageChangeListener();
@@ -90,9 +112,9 @@ public class MainActivity extends AppCompatActivity {
                     chatList.get(i).getImageSrc(),
                     sharedPreferences.getString("record", null),
                     sharedPreferences.getString("time", null)));
-            if (chatDataList.get(i).getRecord().isEmpty()) {
-                chatDataList.remove(i);
-            }
+//            if (chatDataList.get(i).getRecord().isEmpty()) {
+//                chatDataList.remove(i);
+//            }
         }
         ChatPager chatPager = new ChatPager(this, chatDataList);
         View chatView = chatPager.initView();
@@ -105,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     chatList.get(i).getContactName(),
                     chatList.get(i).getImageSrc()));
         }
-        ContactPager contactPager = new ContactPager(this, contactDataList);
+        contactPager = new ContactPager(this, contactDataList);
         View contactView = contactPager.initView();
         return contactView;
     }
@@ -200,6 +222,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    class mHandler extends Handler {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+//            super.handleMessage(msg);
+            switch (msg.what) {
+                case READY_FOR_FLASH:
+                    mVpMain.getAdapter().notifyDataSetChanged();
+                    mVpMain.setAdapter(mVpMain.getAdapter());
+                    break;
+                default:
+                    Log.d(TAG, "handleMessage: Wrong" + msg.what);
+            }
+        }
+    }
 
 }
 

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Chat {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int primaryKey;
 
     @ColumnInfo

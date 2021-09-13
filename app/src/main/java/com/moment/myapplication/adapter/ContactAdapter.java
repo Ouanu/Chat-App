@@ -49,13 +49,18 @@ public class ContactAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+//        if (contactDataArrayList.get(position).getImageSrc() == null) {
+//            viewHolder.imageView.setImageResource(R.drawable.ic_atm_fill);
+//        }else {
+//            viewHolder.imageView.setImageURI(Uri.parse(contactDataArrayList.get(position).getImageSrc()));
 
-        viewHolder.imageView.setImageURI(Uri.parse(contactDataArrayList.get(position).getImageSrc()));
+//        }
+        viewHolder.imageView.setImageResource(R.drawable.ic_atm_fill);
         viewHolder.name.setText(contactDataArrayList.get(position).getContactName());
 
         return convertView;
     }
-    public void setContactDataArrayList(List<ContactData> chatDataArrayList) {
+    public void setContactDataArrayList(List<ContactData> contactDataArrayList) {
         this.contactDataArrayList = contactDataArrayList;
     }
     class ViewHolder {

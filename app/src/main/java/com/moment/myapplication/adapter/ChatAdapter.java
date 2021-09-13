@@ -59,7 +59,8 @@ public class ChatAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.icon.setImageURI(Uri.parse(chatDataArrayList.get(position).getImageSrc()));
+//        viewHolder.icon.setImageURI(Uri.parse(chatDataArrayList.get(position).getImageSrc()));
+        viewHolder.icon.setImageResource(R.drawable.ic_atm_fill);
         viewHolder.contactName.setText(chatDataArrayList.get(position).getContactName());
         viewHolder.contactRecord.setText(chatDataArrayList.get(position).getRecord());
         viewHolder.time.setText(chatDataArrayList.get(position).getTime());
