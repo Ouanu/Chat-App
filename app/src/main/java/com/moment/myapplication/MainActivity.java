@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         View viewPager0 = getChatView(chatList);
         View viewPager1 = getContactView(chatList);
+        
 
         viewContainer.add(viewPager0);
         viewContainer.add(viewPager1);
