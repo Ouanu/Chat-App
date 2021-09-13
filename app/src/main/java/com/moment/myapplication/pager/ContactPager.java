@@ -11,19 +11,17 @@ import java.util.List;
 
 public class ContactPager {
     private Context context;
-    private List<ContactData> contactDataArrayList;
     public ListView mLvItemPager;
     public ContactAdapter contactAdapter;
 
     public ContactPager(Context context, List<ContactData> contactDataArrayList) {
         this.context = context;
-        this.contactDataArrayList = contactDataArrayList;
+        contactAdapter = new ContactAdapter(context, contactDataArrayList);
     }
 
     public View initView() {
         View view = View.inflate(context, R.layout.item_pager, null);
         mLvItemPager = view.findViewById(R.id.lv_item_pager);
-        contactAdapter = new ContactAdapter(context, contactDataArrayList);
         mLvItemPager.setAdapter(contactAdapter);
         return view;
     }

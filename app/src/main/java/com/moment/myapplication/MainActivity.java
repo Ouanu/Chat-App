@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -72,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 contactPager.contactAdapter.setContactDataArrayList(contactDataList);
                 contactPager.contactAdapter.notifyDataSetChanged();
                 contactPager.mLvItemPager.setAdapter(contactPager.contactAdapter);
+                View view = contactPager.initView();
+                viewContainer.set(1, view);
                 handler.sendEmptyMessage(READY_FOR_FLASH);
             }
         });
@@ -82,11 +83,12 @@ public class MainActivity extends AppCompatActivity {
         chatDao = chatDatabase.getChatDao();
         chatList = chatDao.getChatList();
 
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 View viewPager0 = getChatView(chatList);
-                viewContainer.add(viewPager0);
+                viewContainer.set(0,viewPager0);
                 handler.sendEmptyMessage(READY_FOR_FLASH);
             }
         }).start();
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 View viewPager1 = getContactView(chatList);
-                viewContainer.add(viewPager1);
+                viewContainer.set(1,viewPager1);
                 handler.sendEmptyMessage(READY_FOR_FLASH);
             }
         }).start();
@@ -110,11 +112,12 @@ public class MainActivity extends AppCompatActivity {
             chatDataList.add(new ChatData(chatList.get(i).getId(),
                     chatList.get(i).getContactName(),
                     chatList.get(i).getImageSrc(),
-                    sharedPreferences.getString("record", null),
-                    sharedPreferences.getString("time", null)));
-//            if (chatDataList.get(i).getRecord().isEmpty()) {
+                    sharedPreferences.getString("record", "null"),
+                    sharedPreferences.getString("time", "null")));
+//            if (chatDataList.get(i).getRecord() == null) {
 //                chatDataList.remove(i);
 //            }
+            Log.d(TAG, "getChatView: " + chatDataList.get(i).getRecord());
         }
         ChatPager chatPager = new ChatPager(this, chatDataList);
         View chatView = chatPager.initView();
@@ -176,10 +179,12 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
+
             @Override
             public void onPageSelected(int position) {
                 mRgMain.check(mRgMain.getChildAt(position).getId());
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
 
