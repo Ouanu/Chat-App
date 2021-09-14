@@ -83,6 +83,13 @@ public class MainActivity extends AppCompatActivity {
         chatDao = chatDatabase.getChatDao();
         chatList = chatDao.getChatList();
 
+        TextView textView = new TextView(this);
+        textView.setText("Loading...");
+        TextView textView1 = new TextView(this);
+        textView1.setText("Loading...");
+        viewContainer.add(textView);
+        viewContainer.add(textView1);
+
 
         new Thread(new Runnable() {
             @Override
