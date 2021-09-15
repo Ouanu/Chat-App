@@ -3,6 +3,7 @@ package com.moment.myapplication;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     ChatDao chatDao;
     ContactPager contactPager;
     mHandler handler = new mHandler();
+    ChatPager chatPager;
     private List<ContactData> contactDataList = new ArrayList<>();
     private List<Chat> chatList = new ArrayList<>();
     private List<ChatData> chatDataList = new ArrayList<>();
@@ -82,14 +84,10 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         chatDao = chatDatabase.getChatDao();
         chatList = chatDao.getChatList();
-
-        TextView textView = new TextView(this);
-        textView.setText("Loading...");
-        TextView textView1 = new TextView(this);
-        textView1.setText("Loading...");
-        viewContainer.add(textView);
-        viewContainer.add(textView1);
-
+        /**
+         * 初始化四个页面
+         */
+        initialization();
 
         new Thread(new Runnable() {
             @Override
@@ -108,11 +106,33 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
 
-
         mVpMainSetAdapter();
         mVpMainAddOnPageChangeListener();
     }
 
+    /**
+     * 初始化页面
+     */
+    private void initialization() {
+        TextView textView = new TextView(this);
+        textView.setText("Loading...");
+        TextView textView1 = new TextView(this);
+        textView1.setText("Loading...");
+        TextView textView2 = new TextView(this);
+        textView2.setText("Loading...");
+        TextView textView3 = new TextView(this);
+        textView3.setText("Loading...");
+        viewContainer.add(textView);
+        viewContainer.add(textView1);
+        viewContainer.add(textView2);
+        viewContainer.add(textView3);
+    }
+
+    /**
+     * 获取聊天列表界面
+     * @param chatList
+     * @return 聊天列表界面
+     */
     private View getChatView(List<Chat> chatList) {
         for (int i = 0; i < chatList.size(); i++) {
             SharedPreferences sharedPreferences = getSharedPreferences(String.valueOf(chatList.get(i).getId()), Context.MODE_PRIVATE);
@@ -126,11 +146,16 @@ public class MainActivity extends AppCompatActivity {
 //            }
             Log.d(TAG, "getChatView: " + chatDataList.get(i).getRecord());
         }
-        ChatPager chatPager = new ChatPager(this, chatDataList);
+        chatPager = new ChatPager(this, chatDataList);
         View chatView = chatPager.initView();
         return chatView;
     }
 
+    /**
+     * 获取联系人列表页面
+     * @param chatList
+     * @return 联系人列表页面
+     */
     private View getContactView(List<Chat> chatList) {
         for (int i = 0; i < chatList.size(); i++) {
             contactDataList.add(new ContactData(chatList.get(i).getId(),
@@ -242,6 +267,16 @@ public class MainActivity extends AppCompatActivity {
                 case READY_FOR_FLASH:
                     mVpMain.getAdapter().notifyDataSetChanged();
                     mVpMain.setAdapter(mVpMain.getAdapter());
+                    chatPager.mLvItemPager.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                            intent.putExtra("id", chatDataList.get(position).getId());
+                            intent.putExtra("contactName", chatDataList.get(position).getContactName());
+//                            startActivityForResult(intent, 1101);
+                            startActivity(intent);
+                        }
+                    });
                     break;
                 default:
                     Log.d(TAG, "handleMessage: Wrong" + msg.what);
