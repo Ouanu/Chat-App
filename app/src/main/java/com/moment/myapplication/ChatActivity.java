@@ -1,10 +1,10 @@
 package com.moment.myapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mEtChat;
     private ImageView mIvAddPicture;
     private ImageView mIvSend;
+    private ListView mLvChatRecord;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,8 +26,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         mEtChat = findViewById(R.id.et_chat);
         mIvAddPicture = findViewById(R.id.iv_add_picture);
         mIvSend = findViewById(R.id.iv_send);
-
+        mLvChatRecord = findViewById(R.id.lv_chat_record);
         mIvBack.setOnClickListener(this);
+
+
 
         String contactName = getIntent().getStringExtra("contactName");
         long id = getIntent().getLongExtra("id", 0);
@@ -34,6 +37,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         if (id != 0) {
             mTvChatContactName.setText(contactName);
         }
+
     }
 
     @Override
