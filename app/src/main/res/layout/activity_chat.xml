@@ -4,6 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <LinearLayout
+            android:id="@+id/ll_chat_top"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
@@ -27,7 +28,14 @@
                 android:textColor="@color/black"/>
     </LinearLayout>
 
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ll_chat_top"
+            android:layout_above="@+id/ll_chat_bottom"/>
+
     <LinearLayout
+            android:id="@+id/ll_chat_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
