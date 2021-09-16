@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Date;
+
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView mIvBack;
     private TextView mTvChatContactName;
@@ -24,6 +26,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private String nowRecord = "";
     private TextView mTvRecord;
+    Date date;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +67,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         } else if (v.getId() == R.id.iv_send) {
             String record = mEtChat.getText().toString();
-            nowRecord += "我" + "\n" + record + "\n\n";
+            date = new Date();
+            String time = date.toLocaleString();
+            nowRecord += "我" + " " + time + "\n" + record + "\n\n";
             mTvRecord.setText(nowRecord);
             mTvRecord.setMovementMethod(ScrollingMovementMethod.getInstance());
             mEtChat.setText("");
