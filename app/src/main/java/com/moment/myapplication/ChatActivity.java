@@ -1,5 +1,9 @@
 package com.moment.myapplication;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +21,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mIvSend;
     private ListView mLvChatRecord;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +34,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         mLvChatRecord = findViewById(R.id.lv_chat_record);
         mIvBack.setOnClickListener(this);
 
-
-
         String contactName = getIntent().getStringExtra("contactName");
         long id = getIntent().getLongExtra("id", 0);
+        String imageSrc = getIntent().getStringExtra("imageSrc");
+
+
+
+
+
+
+
 
         if (id != 0) {
             mTvChatContactName.setText(contactName);
@@ -57,5 +68,19 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
              */
         }
 
+    }
+
+    class ReadHelper extends SQLiteOpenHelper {
+        public ReadHelper(Context context) {
+            super(context, "record.db", null, 1);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        }
     }
 }

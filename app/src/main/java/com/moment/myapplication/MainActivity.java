@@ -273,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = new Intent(MainActivity.this, ChatActivity.class);
                             intent.putExtra("id", chatDataList.get(position).getId());
                             intent.putExtra("contactName", chatDataList.get(position).getContactName());
+                            intent.putExtra("imageSrc", chatDataList.get(position).getImageSrc());
 //                            startActivityForResult(intent, 1101);
                             startActivity(intent);
                         }
