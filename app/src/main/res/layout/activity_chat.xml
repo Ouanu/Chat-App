@@ -28,10 +28,23 @@
                 android:textColor="@color/black"/>
     </LinearLayout>
 
-    <ListView
-            android:id="@+id/lv_chat_record"
+<!--    <ListView-->
+<!--            android:id="@+id/lv_chat_record"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_below="@+id/ll_chat_top"-->
+<!--            android:layout_above="@+id/ll_chat_bottom"/>-->
+
+    <TextView
+            android:id="@+id/tv_record"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:text="TEST"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:scrollbars="vertical"
             android:layout_below="@+id/ll_chat_top"
             android:layout_above="@+id/ll_chat_bottom"/>
 
