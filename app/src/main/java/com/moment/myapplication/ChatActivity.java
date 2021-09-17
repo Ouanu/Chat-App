@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Date;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "ChatActivity";
     private ImageView mIvBack;
     private TextView mTvChatContactName;
     private EditText mEtChat;
@@ -42,6 +44,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 //        mLvChatRecord = findViewById(R.id.lv_chat_record);
         mIvBack.setOnClickListener(this);
         mIvSend.setOnClickListener(this);
+        mIvAddPicture.setOnClickListener(this);
         mTvRecord = findViewById(R.id.tv_record);
 
 
@@ -52,6 +55,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         recordLastTime = preferences.getString("all", null);
 
+        Log.d(TAG, "=======" + recordLastTime);
         if (recordLastTime == null) {
             mTvRecord.setText("");
         } else {
@@ -77,16 +81,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             String record = mEtChat.getText().toString();
             date = new Date();
             String time = date.toLocaleString();
-            nowRecord += "我" + " " + time + "\n" + record + "\n\n";
-            mTvRecord.setText(nowRecord);
+            recordLastTime += "我" + " " + time + "\n" + record + "\n\n";
+            mTvRecord.setText(recordLastTime);
             mTvRecord.setMovementMethod(ScrollingMovementMethod.getInstance());
-            recordLastTime += nowRecord;
-            preferences.edit().putString("all", recordLastTime);
+//            recordLastTime += nowRecord;
+            preferences.edit().putString("all", recordLastTime).commit();
             mEtChat.setText("");
         } else if (v.getId() == R.id.iv_add_picture) {
             /**
              * 调用系统图库，选择图片发送
              */
+            preferences.edit().clear().commit();
         }
 
     }
