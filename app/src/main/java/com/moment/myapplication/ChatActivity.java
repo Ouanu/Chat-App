@@ -71,6 +71,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             /**
              * 返回最近一次的聊天记录和时间
              */
+            preferences.edit();
             finish();
         } else if (v.getId() == R.id.iv_send) {
             String record = mEtChat.getText().toString();
@@ -102,5 +103,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        preferences.edit().commit();
+        super.onBackPressed();
     }
 }
