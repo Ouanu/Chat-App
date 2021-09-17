@@ -27,6 +27,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private String nowRecord = "";
     private TextView mTvRecord;
     Date date;
+    SharedPreferences preferences;
+    String recordLastTime = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,10 +48,15 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         String contactName = getIntent().getStringExtra("contactName");
         long id = getIntent().getLongExtra("id", 0);
         String imageSrc = getIntent().getStringExtra("imageSrc");
+        preferences = getSharedPreferences(String.valueOf(id), MODE_PRIVATE);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(String.valueOf(id), MODE_PRIVATE);
-        sharedPreferences.getString("all", null);
+        recordLastTime = preferences.getString("all", null);
 
+        if (recordLastTime == null) {
+            mTvRecord.setText("");
+        } else {
+            mTvRecord.setText(recordLastTime);
+        }
 
         if (id != 0) {
             mTvChatContactName.setText(contactName);
@@ -72,6 +79,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             nowRecord += "我" + " " + time + "\n" + record + "\n\n";
             mTvRecord.setText(nowRecord);
             mTvRecord.setMovementMethod(ScrollingMovementMethod.getInstance());
+            recordLastTime += nowRecord;
+            preferences.edit().putString("all", recordLastTime);
             mEtChat.setText("");
         } else if (v.getId() == R.id.iv_add_picture) {
             /**
