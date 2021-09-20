@@ -25,6 +25,7 @@ import com.moment.myapplication.dao.ChatDao;
 import com.moment.myapplication.data.ChatDatabase;
 import com.moment.myapplication.pager.ChatPager;
 import com.moment.myapplication.pager.ContactPager;
+import com.moment.myapplication.server.ChatClient;
 
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     ContactPager contactPager;
     mHandler handler = new mHandler();
     ChatPager chatPager;
+
     private List<ContactData> contactDataList = new ArrayList<>();
     private List<Chat> chatList = new ArrayList<>();
     private List<ChatData> chatDataList = new ArrayList<>();
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 handler.sendEmptyMessage(READY_FOR_FLASH);
             }
         });
+
 
         chatDatabase = Room.databaseBuilder(this, ChatDatabase.class, "chat_database")
                 .allowMainThreadQueries()

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import com.moment.myapplication.server.ChatClient;
 
 import java.util.Date;
 
@@ -31,6 +32,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     Date date;
     SharedPreferences preferences;
     String recordLastTime = "";
+    ChatClient chatClient;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         mIvSend.setOnClickListener(this);
         mIvAddPicture.setOnClickListener(this);
         mTvRecord = findViewById(R.id.tv_record);
+        chatClient = new ChatClient();
+        chatClient.getClient();
 
 
         String contactName = getIntent().getStringExtra("contactName");
@@ -79,6 +83,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         } else if (v.getId() == R.id.iv_send) {
             String record = mEtChat.getText().toString();
+            try {
+                chatClient.sendMessage(record);
+            } catch (Exception e) {
+                System.out.println("Fail to send......");
+                e.printStackTrace();
+            }
             date = new Date();
             String time = date.toLocaleString();
             recordLastTime += "我" + " " + time + "\n" + record + "\n\n";
